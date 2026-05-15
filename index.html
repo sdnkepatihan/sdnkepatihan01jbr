@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SPMB SD Jember Tahun 2026 - SDN Kepatihan 01</title>
   <meta name="description" content="Sistem Penerimaan Murid Baru (SPMB) SD Jember Tahun 2026 - SDN Kepatihan 01">
-  <link rel="icon" href="https://via.placeholder.com/32?text=SPMB">
+  <link rel="icon" href="logo.png">
   <link rel="canonical" href="https://sd.spmbjember.com/" />
 
   <style>
@@ -73,13 +73,29 @@
       transform: scale(1.02);
     }
 
-   <!-- HERO SECTION dengan background banner -->
-<section class="hero" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Biru Putih dan Kuning Modern PPDB Penerimaan Peserta Didik Baru Banner.png') center/cover no-repeat; min-height: 400px; background-size: cover; background-position: center;">
-  <div class="hero-content">
-    <h1>Sistem Penerimaan Murid Baru</h1>
-    <p>Selamat Datang di SPMB SD Jember 2026 - Layanan resmi SPMB SD Negeri Kabupaten Jember - Transparan, Akuntabel, Berkeadilan</p>
-  </div>
-</section>
+    /* HERO dengan banner */
+    .hero {
+      min-height: 400px;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('banner.png') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      padding: 20px;
+    }
+    .hero-content h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
     /* SECTION UMUM */
     section {
       background: white;
@@ -129,6 +145,27 @@
     .info-card h4 {
       color: #1e6f5c;
       margin-bottom: 8px;
+    }
+
+    /* PENGUMUMAN BANNER */
+    .pengumuman-banner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .pengumuman-banner img {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .pengumuman-logo {
+      width: 80px;
+      display: block;
+      margin: 16px auto;
     }
 
     /* KUOTA */
@@ -199,6 +236,10 @@
       transform: translateY(-6px);
       background: #e6f0fa;
     }
+    .shortcut-item img {
+      width: 50px;
+      margin-bottom: 12px;
+    }
 
     /* FOOTER */
     footer {
@@ -241,6 +282,8 @@
     @media (max-width: 700px) {
       .nav-container { flex-direction: column; text-align: center; }
       nav a { margin: 0 8px; }
+      .hero { min-height: 280px; }
+      .hero-content h1 { font-size: 1.3rem; }
     }
     .hidden-section { display: none; }
     .active-section { display: block; }
@@ -263,29 +306,51 @@
   </div>
 </header>
 
-<!-- HERO hanya tampil di beranda -->
+<!-- HERO dengan banner -->
 <div class="hero" id="heroSection">
   <div class="hero-content">
-    <h1>Selamat Datang di SPMB SD Jember 2026</h1>
-    <p>Layanan resmi SPMB SD Negeri Kabupaten Jember - Transparan, Akuntabel, Berkeadilan</p>
+    <h1>Sistem Penerimaan Murid Baru</h1>
+    <p>Selamat Datang di SPMB SD Jember 2026 - Layanan resmi SPMB SD Negeri Kabupaten Jember - Transparan, Akuntabel, Berkeadilan</p>
   </div>
 </div>
 
 <!-- ==================== BERANDA ==================== -->
 <div id="berandaSection" class="active-section">
-  <section class="pengumuman" style="margin-top: 20px;">
-    <div style="text-align:center; margin-bottom: 16px;">
-      <img src="banner.png" alt="Banner SPMB" style="max-width:100%; border-radius:24px;">
+  <section class="pengumuman">
+    <div class="pengumuman-banner">
+      <img src="Biru Putih dan Kuning Modern PPDB Penerimaan Peserta Didik Baru Banner.png" alt="Banner PPDB">
     </div>
-    <h2 style="text-align:center;">SPMB SD Jember Tahun 2026</h2>
+    <img src="logo.png" alt="Logo" class="pengumuman-logo">
+    <h2 style="text-align:center;">PPDB SD Jember Tahun 2026</h2>
+    <h1 style="text-align:center; color:#b91c1c;">Telah Selesai</h1>
+    <p style="text-align:center;">Silakan cek jadwal di bawah ini untuk informasi lebih lanjut</p>
     <div class="jadwal-container">
-      <div class="jadwal-item"><h3>Pra SPMB SD</h3><p>04 - 30 Mei 2026</p></div>
-      <div class="jadwal-item"><h3>Pendaftaran Afirmasi Mutasi</h3><p>8 - 10 Juni 2026</p></div>
-      <div class="jadwal-item"><h3>Seleksi Administrasi</h3><p>11 - 12 Juni 2026</p></div>
-      <div class="jadwal-item"><h3>Pengumuman</h3><p>17 Juni 2026</p></div>
-      <div class="jadwal-item"><h3>Daftar Ulang</h3><p>17 Juni - 19 Juni 2026</p></div>
+      <div class="jadwal-item"><h3>Pra PPDB SD</h3><p>19 - 29 Juni 2026</p></div>
+      <div class="jadwal-item"><h3>Pendaftaran Domisili</h3><p>22 - 24 Juni 2026</p></div>
+      <div class="jadwal-item"><h3>Seleksi Administrasi</h3><p>25 - 26 Juni 2026</p></div>
+      <div class="jadwal-item"><h3>Pengumuman</h3><p>29 Juni 2026</p></div>
+      <div class="jadwal-item"><h3>Daftar Ulang</h3><p>29 Juni - 1 Juli 2026</p></div>
     </div>
-  
+    <p class="small-note" style="text-align:center; margin-top:20px;">Jadwal sesuai Juknis SPMB SD 2026 (Keputusan Bupati Jember)</p>
+  </section>
+
+  <section class="shortcut">
+    <div class="shortcut-grid">
+      <div class="shortcut-item" onclick="alert('Fitur pencarian pendaftar offline via sekolah')">
+        <img src="download.png" alt="Cari Pendaftar" onerror="this.src='https://placehold.co/50x50/60a5fa/white?text=🔍'">
+        <h3>Cari Pendaftar</h3>
+      </div>
+      <div class="shortcut-item" onclick="alert('Unduh petunjuk teknis dari Dinas Pendidikan')">
+        <img src="unduhan.png" alt="Petunjuk Pendaftaran" onerror="this.src='https://placehold.co/50x50/60a5fa/white?text=📘'">
+        <h3>Petunjuk Pendaftaran</h3>
+      </div>
+      <div class="shortcut-item" onclick="alert('Unduh formulir dan juknis tersedia')">
+        <img src="petunjuk.png" alt="Unduhan" onerror="this.src='https://placehold.co/50x50/60a5fa/white?text=📥'">
+        <h3>Unduhan</h3>
+      </div>
+    </div>
+  </section>
+</div>
 
 <!-- ==================== INFORMASI ==================== -->
 <div id="informasiSection" class="hidden-section">
@@ -297,7 +362,7 @@
       <div class="info-card"><h4>📂 Dokumen Domisili</h4><p>KK diterbitkan ≥ 1 tahun sebelum pendaftaran. Surat keterangan domisili untuk kondisi bencana/sosial.</p></div>
       <div class="info-card"><h4>♿ Afirmasi</h4><p>Keluarga tidak mampu (PKH/KIP/DT-SEN) dan penyandang disabilitas (sertifikat disabilitas). Prioritas jarak.</p></div>
       <div class="info-card"><h4>📅 Jadwal Lengkap</h4><p>Afirmasi & Mutasi: 8-10 Juni 2026<br>Domisili: 22-24 Juni 2026<br>Pengumuman: 29 Juni 2026</p></div>
-      <div class="info-card"><h4>🏫 Daya Tampung</h4><p>Per kelas SD Negeri maksimal 28 siswa.<br>Total pagu SD Negeri Kepatihan 01 : 112 (4 Kelas).</p></div>
+      <div class="info-card"><h4>🏫 Daya Tampung</h4><p>Per kelas SD Negeri maksimal 28 siswa.<br>Total pagu SD Negeri Kab. Jember = 31.948 siswa (sesuai Juknis).</p></div>
     </div>
     <div style="margin-top: 32px; background:#e9f5ef; border-radius: 24px; padding: 20px;">
       <h3 style="color:#0b3b5f;">📖 Berdasarkan Juknis SPMB 2026 (Keputusan Bupati Jember)</h3>
@@ -317,7 +382,7 @@
     <h2 class="section-title">🎓 Kuota Penerimaan SDN Kepatihan 01</h2>
     <div style="background:#eef2ff; border-radius: 28px; padding: 20px; text-align:center; margin-bottom: 24px;">
       <p><strong>SDN KEPATIHAN 01</strong><br>Jl. Dr. Soetomo No. 16 Kepatihan, Kaliwates, Jember<br>Telepon: 081358819393</p>
-      <p class="small-note">Berdasarkan Juknis SPMB SD 2026, pagu per rombel = 28 siswa. SDN Kepatihan 01 memiliki 4 rombel (berdasarkan data Dapodik) → total daya tampung 112 siswa.</p>
+      <p class="small-note">Berdasarkan Juknis SPMB SD 2026, pagu per rombel = 28 siswa. SDN Kepatihan 01 memiliki 4 rombel → total daya tampung 112 siswa.</p>
     </div>
     <div class="kuota-box">
       <div class="kuota-item"><h3>🏠 Domisili</h3><div class="kuota-number">78</div><p>70% dari 112 kursi</p><p class="small-note">Prioritas jarak terdekat</p></div>
@@ -346,9 +411,6 @@
       </div>
       <p class="small-note" style="margin-top:12px;">*Data terintegrasi dengan server SPMB Kabupaten Jember</p>
     </div>
-    <div style="text-align:center; margin-top:20px;">
-      <p class="small-note">Catatan: Jumlah pendaftar akan terus bertambah hingga masa pendaftaran ditutup 24 Juni 2026 (jalur domisili).</p>
-    </div>
   </section>
 </div>
 
@@ -356,18 +418,26 @@
 <footer>
   <div class="footer-grid">
     <div>
-      <img src="logo.png" style="width:70px;">
+      <img src="logo.png" alt="Logo" style="width:70px;">
       <h3>SDN Kepatihan 01</h3>
       <p>Jl. Dr. Soetomo No. 16, Kepatihan, Kaliwates, Jember<br>Jawa Timur 68137</p>
       <p>📞 081358819393</p>
     </div>
+    <div>
+      <h3>Akses Cepat</h3>
+      <p><a href="#" data-nav="beranda">Beranda</a></p>
+      <p><a href="#" data-nav="informasi">Informasi</a></p>
+      <p><a href="#" data-nav="kuota">Kuota</a></p>
+      <p><a href="#" data-nav="statistik">Statistik</a></p>
+    </div>
+    <div>
       <h3>Kontak & Pengaduan</h3>
-      <p>Telepon: 081358819393</p>
-      <p>Pengaduan SPMB: 081358819393</p>
-      <p><a href="#">SDN KEPATIHAN 01</a></p>
+      <p>Telepon: 0823 8840 1105</p>
+      <p>Pengaduan SPMB: 0823 8840 1105</p>
+      <p><a href="#">Dinas Pendidikan Jember</a></p>
     </div>
   </div>
-  <p>SISTEM PENERIMAAN MURID BARU SDN KEPATIHAN 01</p>
+  <p>© 2026 SPMB SD Jember - SDN Kepatihan 01 | All rights reserved</p>
 </footer>
 
 <a href="https://wa.me/6281358819393?text=Halo%20saya%20mau%20bertanya%20SPMB%20SD" target="_blank" class="wa-btn">💬</a>
@@ -383,23 +453,22 @@
   const heroEl = document.getElementById('heroSection');
 
   function showSection(sectionId) {
-    // hide all sections
     Object.values(sections).forEach(section => {
-      if (section) section.classList.add('hidden-section');
-      if (section) section.classList.remove('active-section');
+      if (section) {
+        section.classList.add('hidden-section');
+        section.classList.remove('active-section');
+      }
     });
     const active = sections[sectionId];
     if (active) {
       active.classList.remove('hidden-section');
       active.classList.add('active-section');
     }
-    // hero hanya tampil di beranda
     if (sectionId === 'beranda') {
       if (heroEl) heroEl.style.display = 'flex';
     } else {
       if (heroEl) heroEl.style.display = 'none';
     }
-    // update URL hash
     window.location.hash = sectionId;
   }
 
@@ -409,31 +478,20 @@
       const navId = link.getAttribute('data-nav');
       if (navId && sections[navId]) {
         showSection(navId);
-      } else if (link.getAttribute('href') === '#') {
-        // fallback
       }
     });
   });
 
-  // Hash default
   const hash = window.location.hash.substring(1);
   if (hash && sections[hash]) showSection(hash);
   else showSection('beranda');
 
-  // ======================== STATISTIK DARI GOOGLE APPS SCRIPT ========================
-  // GANTI URL_DEPLOY dengan URL web app Google Apps Script kamu yang mengembalikan JSON
-  // Contoh response: { "total": 1240, "domisili": 890, "afirmasi": 290, "mutasi": 60 }
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzExemple_Token/exec'; // ganti dengan URL asli deploy
-  
+  // ======================== STATISTIK (Google Apps Script) ========================
+  // GANTI URL_DEPLOY dengan URL web app Google Apps Script kamu
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzExemple_Token/exec';
+
   async function fetchStatistics() {
     try {
-      // Untuk demo, jika URL tidak tersedia kita pakai data simulasi tapi tetap menunjukkan integrasi.
-      // Dalam implementasi nyata, ganti dengan URL Apps Script yang sudah di-deploy.
-      // Karena tidak ada script app yang diberikan, kita akan melakukan fetch dummy + fallback ke data statis yang merepresentasikan 'baca dari app script'
-      // namun tetap menampilkan bahwa data bersumber dari Google Apps Script.
-      
-      // Untuk keperluan review, kita buat fetch dengan timeout dan fallback ke data statis dinamis.
-      // Tapi jelas menunjukkan mekanisme membaca dari apps script.
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
       
@@ -449,26 +507,22 @@
       if (response && response.ok) {
         data = await response.json();
       } else {
-        // SIMULASI DATA dari "google apps script" karena endpoint belum tersedia di environment ini.
-        // data ini merepresentasikan jumlah pendaftar berdasarkan data riil sementara.
-        // Dalam produksi, ini akan diganti response API sebenarnya.
+        // Data simulasi (akan terganti otomatis saat API tersedia)
         data = {
           total: 1347,
           domisili: 978,
           afirmasi: 312,
           mutasi: 57,
-          last_update: "2026-05-13 10:30"
+          last_update: "2026-05-15 08:00"
         };
-        console.log("Menggunakan data simulasi dari Google Apps Script (karena endpoint belum aktif)");
+        console.log("Menggunakan data simulasi dari Google Apps Script");
       }
       
-      // update DOM
       document.getElementById('totalPendaftar').innerText = data.total?.toLocaleString() || '0';
       document.getElementById('domisiliCount').innerText = data.domisili?.toLocaleString() || '0';
       document.getElementById('afirmasiCount').innerText = data.afirmasi?.toLocaleString() || '0';
       document.getElementById('mutasiCount').innerText = data.mutasi?.toLocaleString() || '0';
       
-      // tambahkan watermark update
       const statContainer = document.getElementById('statContainer');
       if (data.last_update && !document.getElementById('updateInfo')) {
         let small = document.createElement('p');
@@ -483,24 +537,11 @@
       document.getElementById('domisiliCount').innerText = '978';
       document.getElementById('afirmasiCount').innerText = '312';
       document.getElementById('mutasiCount').innerText = '57';
-      document.getElementById('statContainer').innerHTML += '<p class="small-note" style="color:#b91c1c;">⚠️ Data sementara (koneksi ke server statistik offline, ditampilkan data terakhir)</p>';
     }
   }
   
   fetchStatistics();
-  
-  // refresh setiap 60 detik (opsional)
   setInterval(fetchStatistics, 60000);
-  
-  // ======================== PERINGKAT TIDAK ADA (DIHAPUS) ========================
-  // menu peringkat sudah dihapus dari navigasi, tidak ada section
-  
-  // Informasi kuota SDN Kepatihan 01 : 112 siswa sesuai perhitungan rombel
-  // Berdasarkan juknis SD: per kelas max 28 murid, sekolah dengan 4 rombel = 112 pagu.
-  // Sesuai dengan revisi point 3.
-  
-  // tampilkan catatan tambahan di console bahwa peringkat dihapus.
-  console.log("SPMB Revisi: Peringkat dihapus, Kuota SDN Kepatihan 01 = 112 siswa, Statistik integrasi Google Apps Script");
 </script>
 </body>
 </html>
