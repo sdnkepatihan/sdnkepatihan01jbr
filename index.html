@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SPMB SD - SDN KEPATIHAN 01</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            color: #4a5568;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        .countdown {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            min-width: 100px;
+        }
+
+        .countdown-label {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Cards */
+        .jalur-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card-badge {
+            background: #edf2f7;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .kuota-info {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        /* Form */
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending { background: #fef3c7; color: #d97706; }
+        .status-verified { background: #dbeafe; color: #2563eb; }
+        .status-accepted { background: #d1fae5; color: #059669; }
+        .status-rejected { background: #fee2e2; color: #dc2626; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            
+            .countdown-number {
+                font-size: 1.5rem;
+                min-width: 60px;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Alert */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #059669;
+            border: 1px solid #059669;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">KEPSA</div>
+                <div class="logo-text">
+                    <h1>SDN KEPATIHAN 01</h1>
+                    <p>JAYA SON KEPATIHAN DI</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="showSection('home')">Beranda</a>
+                <a href="#" onclick="showSection('pendaftaran')">Pendaftaran</a>
+                <a href="#" onclick="showSection('cekstatus')">Cek Status</a>
+                <a href="#" class="btn-login" onclick="showLoginModal()">Login Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" id="homeSection">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h2>Penerimaan Peserta Didik Baru</h2>
+            <p>SDN KEPATIHAN 01 - Tahun Ajaran 2026/2027</p>
+            <p style="margin-top: 0.5rem;">Kecamatan Kaliwates, Kabupaten Jember</p>
+            
+            <div class="countdown">
+                <h3>Pendaftaran Jalur Afirmasi & Mutasi Dimulai:</h3>
+                <div class="countdown-timer" id="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">00</div>
+                        <div class="countdown-label">Hari</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">00</div>
+                        <div class="countdown-label">Jam</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">00</div>
+                        <div class="countdown-label">Menit</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">00</div>
+                        <div class="countdown-label">Detik</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jalur Cards -->
+        <div class="jalur-cards">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🏠 Jalur Domisili</span>
+                    <span class="card-badge">70%</span>
+                </div>
+                <div class="kuota-info">
+                    <strong>Kuota: 78 Kursi</strong>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="domisiliProgress" style="width: 0%"></div>
+                    </div>
+                    <span id="domisiliTerisi">0</span> / 78 Terisi
+                </div>
+                <p>✅ Prioritas jarak terdekat ke sekolah</p>
+                <p>✅ KK minimal 1 tahun</p>
+                <p>✅ Usia prioritas 7 tahun per 1 Juli 2026</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🤝 Jalur Afirmasi</span>
+                    <span class="card-badge">25%</span>
+                </div>
+                <div class="kuota-info">
+                    <strong>Kuota: 28 Kursi</strong>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="afirmasiProgress" style="width: 0%"></div>
+                    </div>
+                    <span id="afirmasiTerisi">0</span> / 28 Terisi
+                </div>
+                <p>✅ Keluarga ekonomi tidak mampu (PKH/KKS/KIP)</p>
+                <p>✅ Penyandang disabilitas</p>
+                <p>✅ Prioritas jarak terdekat jika melebihi kuota</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🔄 Jalur Mutasi</span>
+                    <span class="card-badge">5%</span>
+                </div>
+                <div class="kuota-info">
+                    <strong>Kuota: 6 Kursi</strong>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="mutasiProgress" style="width: 0%"></div>
+                    </div>
+                    <span id="mutasiTerisi">0</span> / 6 Terisi
+                </div>
+                <p>✅ Perpindahan tugas orang tua</p>
+                <p>✅ Anak guru SDN Kepatihan 01</p>
+                <p>✅ Prioritas jarak terdekat jika melebihi kuota</p>
+            </div>
+        </div>
+
+        <!-- Jadwal Section -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem;">📅 Jadwal SPMB 2026</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div>
+                    <h4 style="color: #667eea;">Jalur Afirmasi & Mutasi</h4>
+                    <p>📝 Pendaftaran: 8-10 Juni 2026</p>
+                    <p>✅ Seleksi administrasi: 11-12 Juni 2026</p>
+                    <p>📢 Pengumuman: 17 Juni 2026</p>
+                    <p>📋 Daftar ulang: 17-19 Juni 2026</p>
+                </div>
+                <div>
+                    <h4 style="color: #667eea;">Jalur Domisili</h4>
+                    <p>📝 Pendaftaran: 22-24 Juni 2026</p>
+                    <p>✅ Seleksi administrasi: 25-26 Juni 2026</p>
+                    <p>📢 Pengumuman: 29 Juni 2026</p>
+                    <p>📋 Daftar ulang: 29 Juni - 1 Juli 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wilayah Domisili -->
+        <div class="card">
+            <h3 style="margin-bottom: 1rem;">📍 Wilayah Domisili SDN KEPATIHAN 01</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div>
+                    <h4 style="color: #059669;">Domisili I (0 - 1,5 KM)</h4>
+                    <ul style="margin-top: 0.5rem; margin-left: 1rem; font-size: 0.9rem;">
+                        <li>JL. DR SUTOMO (Gang 1-13)</li>
+                        <li>JL. KH WAHID HASYIM (Gang 1-21)</li>
+                        <li>JL. RADEN PATAH (Gang 1-19)</li>
+                        <li>JL. SETIA BUDI</li>
+                        <li>JL. TRUNOJOYO (Gang 1-11)</li>
+                        <li>JL. DIPONEGORO</li>
+                        <li>JL. KARTINI</li>
+                        <li>JL. GATOT SUBROTO</li>
+                        <li>Dan 20+ jalan lainnya</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #059669;">Domisili II (1,6 - 3 KM)</h4>
+                    <ul style="margin-top: 0.5rem; margin-left: 1rem; font-size: 0.9rem;">
+                        <li>PERUM TEGAL BESAR I</li>
+                        <li>VILLA TEGAL BESAR</li>
+                        <li>PERUM TEGAL BESAR II</li>
+                        <li>JL.IMAM BONJOL</li>
+                        <li>ISTANA TEGAL BESAR</li>
+                        <li>PERUM BUMI TEGAL BESAR</li>
+                        <li>Dan lainnya</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="btn-submit" style="margin-top: 1rem; width: auto; padding: 0.5rem 1rem;" onclick="downloadWilayahPDF()">
+                <i class="fas fa-download"></i> Download Daftar Wilayah (PDF)
+            </button>
+        </div>
+    </div>
+
+    <!-- Form Pendaftaran -->
+    <div class="container" id="pendaftaranSection" style="display: none;">
+        <div class="form-container active">
+            <h2 style="margin-bottom: 2rem;">Formulir Pendaftaran PPDB</h2>
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>NIK *</label>
+                        <input type="text" id="nik" required maxlength="16">
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Lengkap *</label>
+                        <input type="text" id="nama" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tempat Lahir *</label>
+                        <input type="text" id="tempat_lahir" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal Lahir *</label>
+                        <input type="date" id="tanggal_lahir" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Jenis Kelamin *</label>
+                        <select id="jenis_kelamin" required>
+                            <option value="">Pilih</option>
+                            <option value="L">Laki-laki</option>
+                            <option value="P">Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Agama *</label>
+                        <select id="agama" required>
+                            <option value="">Pilih</option>
+                            <option>Islam</option>
+                            <option>Kristen</option>
+                            <option>Katolik</option>
+                            <option>Hindu</option>
+                            <option>Buddha</option>
+                            <option>Konghucu</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat Lengkap *</label>
+                    <textarea id="alamat" rows="3" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>RT</label>
+                        <input type="text" id="rt">
+                    </div>
+                    <div class="form-group">
+                        <label>RW</label>
+                        <input type="text" id="rw">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Kelurahan/Desa *</label>
+                        <input type="text" id="kelurahan" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kecamatan *</label>
+                        <input type="text" id="kecamatan" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Kode POS</label>
+                    <input type="text" id="kode_pos">
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Ayah *</label>
+                    <input type="text" id="nama_ayah" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Pekerjaan Ayah</label>
+                    <input type="text" id="pekerjaan_ayah">
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Ibu *</label>
+                    <input type="text" id="nama_ibu" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Pekerjaan Ibu</label>
+                    <input type="text" id="pekerjaan_ibu">
+                </div>
+
+                <div class="form-group">
+                    <label>No HP/Telepon *</label>
+                    <input type="tel" id="no_hp" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email">
+                </div>
+
+                <div class="form-group">
+                    <label>Jalur Pendaftaran *</label>
+                    <select id="jalur" required onchange="updateDokumenRequirements()">
+                        <option value="">Pilih Jalur</option>
+                        <option value="domisili">Domisili (Kuota: 78 kursi)</option>
+                        <option value="afirmasi">Afirmasi (Kuota: 28 kursi)</option>
+                        <option value="mutasi">Mutasi (Kuota: 6 kursi)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="dokumenContainer">
+                    <!-- Dynamic document upload fields -->
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Foto Siswa (Opsional)</label>
+                    <input type="file" id="foto" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn-submit">Daftar Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cek Status Section -->
+    <div class="container" id="cekstatusSection" style="display: none;">
+        <div class="card">
+            <h2 style="margin-bottom: 2rem;">Cek Status Pendaftaran</h2>
+            <div class="form-group">
+                <label>No Registrasi / NIK</label>
+                <input type="text" id="searchNoReg" placeholder="Masukkan No Registrasi atau NIK">
+            </div>
+            <button class="btn-submit" onclick="cekStatus()">Cek Status</button>
+            <div id="statusResult" style="margin-top: 2rem;"></div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 1rem;">Login Admin</h2>
+            <form onsubmit="loginAdmin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="adminUsername" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <button type="submit" class="btn-submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (Hidden by default) -->
+    <div id="adminDashboard" style="display: none;">
+        <div class="container">
+            <div class="card">
+                <h2>Dashboard Admin SPMB</h2>
+                <div style="margin: 1rem 0;">
+                    <button class="btn-submit" style="width: auto; margin-right: 1rem;" onclick="exportToExcel()">Export ke Excel</button>
+                    <button class="btn-submit" style="width: auto; background: #dc2626;" onclick="logoutAdmin()">Logout</button>
+                </div>
+                
+                <div style="margin: 1rem 0;">
+                    <label>Filter Jalur: </label>
+                    <select id="filterJalur" onchange="loadPendaftar()">
+                        <option value="all">Semua</option>
+                        <option value="domisili">Domisili</option>
+                        <option value="afirmasi">Afirmasi</option>
+                        <option value="mutasi">Mutasi</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No Reg</th>
+                                <th>Nama</th>
+                                <th>Jalur</th>
+                                <th>Status</th>
+                                <th>Verifikasi Dokumen</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; // Replace with your Apps Script URL
+        
+        // Global variables
+        let currentUser = null;
+        
+        // Countdown timer
+        function updateCountdown() {
+            const targetDate = new Date(2026, 5, 8, 0, 0, 0); // June 8, 2026
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = '<h3>Pendaftaran Telah Dibuka!</h3>';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (86400000)) / (3600000));
+            const minutes = Math.floor((diff % (3600000)) / (60000));
+            const seconds = Math.floor((diff % (60000)) / 1000);
+            
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Load kuota
+        async function loadKuota() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getKuota`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('domisiliTerisi').textContent = data.data.domisili;
+                    document.getElementById('afirmasiTerisi').textContent = data.data.afirmasi;
+                    document.getElementById('mutasiTerisi').textContent = data.data.mutasi;
+                    
+                    const domisiliPersen = (data.data.domisili / 78) * 100;
+                    const afirmasiPersen = (data.data.afirmasi / 28) * 100;
+                    const mutasiPersen = (data.data.mutasi / 6) * 100;
+                    
+                    document.getElementById('domisiliProgress').style.width = `${domisiliPersen}%`;
+                    document.getElementById('afirmasiProgress').style.width = `${afirmasiPersen}%`;
+                    document.getElementById('mutasiProgress').style.width = `${mutasiPersen}%`;
+                }
+            } catch (error) {
+                console.error('Error loading kuota:', error);
+            }
+        }
+        
+        // Update dokumen requirements based on jalur
+        function updateDokumenRequirements() {
+            const jalur = document.getElementById('jalur').value;
+            const container = document.getElementById('dokumenContainer');
+            
+            let html = '<label>Dokumen Persyaratan *</label>';
+            
+            if (jalur === 'domisili') {
+                html += `
+                    <input type="file" id="dokumen_kk" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Kartu Keluarga (minimal 1 tahun)</small><br><br>
+                    <input type="file" id="dokumen_akta" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Akta Kelahiran</small>
+                `;
+            } else if (jalur === 'afirmasi') {
+                html += `
+                    <select id="jenis_afirmasi" required onchange="updateAfirmasiDokumen()">
+                        <option value="">Pilih Jenis Afirmasi</option>
+                        <option value="ekonomi">Ekonomi Tidak Mampu</option>
+                        <option value="disabilitas">Penyandang Disabilitas</option>
+                    </select>
+                    <div id="afirmasiDokumenContainer"></div>
+                `;
+            } else if (jalur === 'mutasi') {
+                html += `
+                    <select id="jenis_mutasi" required onchange="updateMutasiDokumen()">
+                        <option value="">Pilih Jenis Mutasi</option>
+                        <option value="pindah_tugas">Perpindahan Tugas Orang Tua</option>
+                        <option value="anak_guru">Anak Guru</option>
+                    </select>
+                    <div id="mutasiDokumenContainer"></div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function updateAfirmasiDokumen() {
+            const jenis = document.getElementById('jenis_afirmasi').value;
+            const container = document.getElementById('afirmasiDokumenContainer');
+            
+            if (jenis === 'ekonomi') {
+                container.innerHTML = `
+                    <input type="file" id="dokumen_kk" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Kartu Keluarga</small><br><br>
+                    <input type="file" id="dokumen_ekonomi" accept=".pdf,.jpg,.png" required>
+                    <small>Upload PKH/KKS/KIP/DT-SEN</small>
+                `;
+            } else if (jenis === 'disabilitas') {
+                container.innerHTML = `
+                    <input type="file" id="dokumen_kk" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Kartu Keluarga</small><br><br>
+                    <input type="file" id="dokumen_disabilitas" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Kartu Disabilitas/Surat Dokter</small>
+                `;
+            }
+        }
+        
+        function updateMutasiDokumen() {
+            const jenis = document.getElementById('jenis_mutasi').value;
+            const container = document.getElementById('mutasiDokumenContainer');
+            
+            if (jenis === 'pindah_tugas') {
+                container.innerHTML = `
+                    <input type="file" id="dokumen_kk" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Kartu Keluarga</small><br><br>
+                    <input type="file" id="dokumen_surat_tugas" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Surat Tugas Orang Tua</small>
+                `;
+            } else if (jenis === 'anak_guru') {
+                container.innerHTML = `
+                    <input type="file" id="dokumen_kk" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Kartu Keluarga</small><br><br>
+                    <input type="file" id="dokumen_surat_guru" accept=".pdf,.jpg,.png" required>
+                    <small>Upload Surat Tugas Guru</small>
+                `;
+            }
+        }
+        
+        // Handle registration
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('.btn-submit');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loading"></div> Mendaftar...';
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData();
+                
+                // Get all form values
+                const fields = ['nik', 'nama', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 
+                               'agama', 'alamat', 'rt', 'rw', 'kelurahan', 'kecamatan', 'kode_pos',
+                               'nama_ayah', 'pekerjaan_ayah', 'nama_ibu', 'pekerjaan_ibu', 'no_hp', 
+                               'email', 'jalur'];
+                
+                fields.forEach(field => {
+                    const value = document.getElementById(field).value;
+                    if (value) formData.append(field, value);
+                });
+                
+                // Handle file uploads
+                const jalur = document.getElementById('jalur').value;
+                
+                if (jalur === 'domisili') {
+                    const kkFile = document.getElementById('dokumen_kk').files[0];
+                    const aktaFile = document.getElementById('dokumen_akta').files[0];
+                    if (kkFile) formData.append('dokumen_kk', kkFile);
+                    if (aktaFile) formData.append('dokumen_akta', aktaFile);
+                } else if (jalur === 'afirmasi') {
+                    const jenis = document.getElementById('jenis_afirmasi').value;
+                    formData.append('jenis_afirmasi', jenis);
+                    
+                    const kkFile = document.getElementById('dokumen_kk').files[0];
+                    if (kkFile) formData.append('dokumen_kk', kkFile);
+                    
+                    if (jenis === 'ekonomi') {
+                        const ekonomiFile = document.getElementById('dokumen_ekonomi').files[0];
+                        if (ekonomiFile) formData.append('dokumen_ekonomi', ekonomiFile);
+                    } else if (jenis === 'disabilitas') {
+                        const disabilitasFile = document.getElementById('dokumen_disabilitas').files[0];
+                        if (disabilitasFile) formData.append('dokumen_disabilitas', disabilitasFile);
+                    }
+                } else if (jalur === 'mutasi') {
+                    const jenis = document.getElementById('jenis_mutasi').value;
+                    formData.append('jenis_mutasi', jenis);
+                    
+                    const kkFile = document.getElementById('dokumen_kk').files[0];
+                    if (kkFile) formData.append('dokumen_kk', kkFile);
+                    
+                    if (jenis === 'pindah_tugas') {
+                        const suratFile = document.getElementById('dokumen_surat_tugas').files[0];
+                        if (suratFile) formData.append('dokumen_surat_tugas', suratFile);
+                    } else if (jenis === 'anak_guru') {
+                        const suratFile = document.getElementById('dokumen_surat_guru').files[0];
+                        if (suratFile) formData.append('dokumen_surat_guru', suratFile);
+                    }
+                }
+                
+                const fotoFile = document.getElementById('foto').files[0];
+                if (fotoFile) formData.append('foto', fotoFile);
+                
+                const response = await fetch(`${SCRIPT_URL}?action=register`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`Pendaftaran berhasil!\nNo Registrasi: ${result.no_registrasi}\nSilakan simpan nomor registrasi untuk cek status.`);
+                    document.getElementById('registrationForm').reset();
+                    showSection('cekstatus');
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Cek status
+        async function cekStatus() {
+            const searchTerm = document.getElementById('searchNoReg').value;
+            if (!searchTerm) {
+                alert('Masukkan No Registrasi atau NIK');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=cekStatus&search=${encodeURIComponent(searchTerm)}`);
+                const result = await response.json();
+                
+                if (result.success && result.data) {
+                    const data = result.data;
+                    let statusHtml = `
+                        <div class="alert alert-${data.status === 'accepted' ? 'success' : 'info'}">
+                            <h3>Status Pendaftaran: ${data.status.toUpperCase()}</h3>
+                            <p><strong>No Registrasi:</strong> ${data.no_registrasi}</p>
+                            <p><strong>Nama:</strong> ${data.nama}</p>
+                            <p><strong>Jalur:</strong> ${data.jalur}</p>
+                    `;
+                    
+                    if (data.status === 'accepted') {
+                        statusHtml += `
+                            <p><strong>Status:</strong> DITERIMA</p>
+                            <p><strong>Jadwal Daftar Ulang:</strong> ${data.jadwal_daftar_ulang || 'Lihat jadwal di atas'}</p>
+                            <button class="btn-submit" style="margin-top: 1rem;" onclick="cetakSuratPenerimaan('${data.no_registrasi}')">
+                                <i class="fas fa-print"></i> Cetak Surat Penerimaan
+                            </button>
+                        `;
+                    } else if (data.status === 'rejected') {
+                        statusHtml += `<p><strong>Status:</strong> DITOLAK</p><p>${data.alasan || 'Tidak memenuhi persyaratan'}</p>`;
+                    } else {
+                        statusHtml += `<p><strong>Status:</strong> Dalam Proses Verifikasi</p>`;
+                    }
+                    
+                    statusHtml += `</div>`;
+                    document.getElementById('statusResult').innerHTML = statusHtml;
+                } else {
+                    document.getElementById('statusResult').innerHTML = '<div class="alert alert-error">Data tidak ditemukan</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan');
+            }
+        }
+        
+        function cetakSuratPenerimaan(noReg) {
+            window.open(`${SCRIPT_URL}?action=cetakSurat&no_reg=${noReg}`, '_blank');
+        }
+        
+        // Admin functions
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        async function loginAdmin(event) {
+            event.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=adminLogin&username=${username}&password=${password}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('loginModal').classList.remove('active');
+                    currentUser = result.user;
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    document.querySelector('.navbar').style.display = 'none';
+                    document.querySelectorAll('.container').forEach(el => el.style.display = 'none');
+                    loadPendaftar();
+                } else {
+                    alert('Login gagal! Username atau password salah.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan');
+            }
+        }
+        
+        async function loadPendaftar() {
+            const filter = document.getElementById('filterJalur').value;
+            
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getPendaftar&filter=${filter}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const tbody = document.getElementById('adminTableBody');
+                    tbody.innerHTML = '';
+                    
+                    result.data.forEach(pendaftar => {
+                        const row = tbody.insertRow();
+                        row.innerHTML = `
+                            <td>${pendaftar.no_registrasi}</td>
+                            <td>${pendaftar.nama}</td>
+                            <td>${pendaftar.jalur}</td>
+                            <td><span class="status-badge status-${pendaftar.status}">${pendaftar.status}</span></td>
+                            <td>
+                                <button onclick="verifikasiDokumen('${pendaftar.no_registrasi}')" class="btn-submit" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                                    Verifikasi
+                                </button>
+                            </td>
+                            <td>
+                                <select onchange="updateStatus('${pendaftar.no_registrasi}', this.value)">
+                                    <option value="pending" ${pendaftar.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="verified" ${pendaftar.status === 'verified' ? 'selected' : ''}>Verified</option>
+                                    <option value="accepted" ${pendaftar.status === 'accepted' ? 'selected' : ''}>Accepted</option>
+                                    <option value="rejected" ${pendaftar.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                                </select>
+                            </td>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        async function updateStatus(noReg, status) {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=updateStatus`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({no_registrasi: noReg, status: status})
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Status berhasil diupdate');
+                    loadPendaftar();
+                    loadKuota();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan');
+            }
+        }
+        
+        function verifikasiDokumen(noReg) {
+            window.open(`${SCRIPT_URL}?action=verifikasiDokumen&no_reg=${noReg}`, '_blank');
+        }
+        
+        function exportToExcel() {
+            window.open(`${SCRIPT_URL}?action=exportExcel`, '_blank');
+        }
+        
+        function logoutAdmin() {
+            currentUser = null;
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.querySelector('.navbar').style.display = 'flex';
+            showSection('home');
+        }
+        
+        // Navigation
+        function showSection(section) {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('pendaftaranSection').style.display = 'none';
+            document.getElementById('cekstatusSection').style.display = 'none';
+            
+            if (section === 'home') {
+                document.getElementById('homeSection').style.display = 'block';
+                loadKuota();
+            } else if (section === 'pendaftaran') {
+                document.getElementById('pendaftaranSection').style.display = 'block';
+            } else if (section === 'cekstatus') {
+                document.getElementById('cekstatusSection').style.display = 'block';
+            }
+        }
+        
+        function downloadWilayahPDF() {
+            const content = `
+                <html>
+                <head><title>Wilayah Domisili SDN KEPATIHAN 01</title></head>
+                <body>
+                    <h1>Wilayah Domisili SDN KEPATIHAN 01</h1>
+                    <h2>Domisili I (0 - 1,5 KM)</h2>
+                    <ul>
+                        <li>JL. DR SUTOMO (Gang 1 s.d 13)</li>
+                        <li>JL. KH WAHID HASYIM (Gang 1 s.d 21)</li>
+                        <li>JL. RADEN PATAH (Gang 1 s.d 19)</li>
+                        <li>JL. SETIA BUDI</li>
+                        <li>JL. TRUNOJOYO (Gang 1 s.d 11)</li>
+                        <li>JL. DIPONEGORO</li>
+                        <li>JL. KARTINI</li>
+                        <li>JL. GATOT SUBROTO</li>
+                        <li>JL. FATAHILLAH</li>
+                        <li>JL. SULTAN AGUNG</li>
+                        <li>JL. KH.SHIDIQ</li>
+                        <li>JL. SUNAN AMPEL</li>
+                        <li>JL. RADEN RAHMAD</li>
+                        <li>JL. SUNAN BONANG</li>
+                        <li>JL. SUNAN GIRI</li>
+                        <li>JL. SUNAN MURIA</li>
+                        <li>JL. SUNAN DRAJAT</li>
+                        <li>JL.KH. AGUS SALIM</li>
+                        <li>JL. SENTOT PRAWIDORIJO</li>
+                        <li>JL.KERTABUMI</li>
+                        <li>JL. JAYANEGARA</li>
+                        <li>JL. KERTANEGERA</li>
+                        <li>JL. GAJAH MADA</li>
+                        <li>JL. KENANGA</li>
+                        <li>JL. COKROAMINOTO</li>
+                        <li>PERUM TEGAL BESAR RAYA</li>
+                        <li>PERUM.BEDADUNG TEGAL BESAR</li>
+                    </ul>
+                    <h2>Domisili II (1,6 - 3 KM)</h2>
+                    <ul>
+                        <li>PERUM TEGAL BESAR I</li>
+                        <li>VILLA TEGAL BESAR</li>
+                        <li>PERUM TEGAL BESAR II</li>
+                        <li>JL.IMAM BONJOL</li>
+                        <li>ISTANA TEGAL BESAR</li>
+                        <li>PERUM BUMI TEGAL BESAR</li>
+                        <li>PERUM TAMAN ANGGREK</li>
+                        <li>TEGAL BESAR CLASTER</li>
+                        <li>PERUM GRAHA CITRA</li>
+                        <li>JL. SENTOT PRAWIDORIJO</li>
+                        <li>JL. GAJAH MADA</li>
+                        <li>JL. JAYANEGERA</li>
+                        <li>JL. MANGKUBUMI</li>
+                        <li>PERUM NUSANTARA</li>
+                    </ul>
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([content], {type: 'application/pdf'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'wilayah_domisili.pdf';
+            link.click();
+        }
+        
+        // Load initial data
+        loadKuota();
+    </script>
+</body>
+</html>
